@@ -1,0 +1,15 @@
+{
+  "name": "peach",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "prepare": "",
+    "type:check": "tsc --noEmit",
+    "test": "",
+    "test:coverage": "",
+    "lint": "",
+    "format": ""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

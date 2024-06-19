@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "@tsconfig/strictest/tsconfig.json",
+    "@tsconfig/node20/tsconfig.json"
+  ],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "moduleResolution": "Node16",
+    "sourceMap": true,
+    "removeComments": true,
+    "verbatimModuleSyntax": true,
+
+    // Reduce strictness
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+
+    "types": ["vitest/globals"]
+  },
+  "include": ["./src"]
+}
