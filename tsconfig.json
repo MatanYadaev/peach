@@ -1,20 +1,8 @@
 {
-  "extends": [
-    "@tsconfig/strictest/tsconfig.json",
-    "@tsconfig/node20/tsconfig.json"
-  ],
+  "extends": "@total-typescript/tsconfig/tsc/no-dom/library",
   "compilerOptions": {
-    "outDir": "./dist",
-    "moduleResolution": "Node16",
-    "sourceMap": true,
-    "removeComments": true,
-    "verbatimModuleSyntax": true,
-
-    // Reduce strictness
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "outDir": "dist",
 
     "types": ["vitest/globals"]
   },
-  "include": ["./src"]
 }
