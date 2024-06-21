@@ -7,7 +7,7 @@ Another validation library for TypeScript.
 - Type-safe validation
 - Extensible
 - Serializable
-- Compiles into JSON Schema (?)
+- Compiles into JSON Schema
 
 ## Usage
 
@@ -33,14 +33,21 @@ const p = createValidator({
 });
 
 const FileSchema = p.object({
-  name: p.string(),
-  content: p.pipe(p.string(), p.base64()),
+  name: p.pipe(p.string('Name is required'), p.trim(), p.minLength(1, 'Name must be at least 1 character long')),
+  content: p.pipe(p.string('Content is required'), p.base64('Content must be a base64 string')),
 });
 
 console.log(FileSchema); // Schemas are serializable
 // {
-//   name: ['string'],
-//   content: ['string', 'base64'],
+//   name: [
+//     { type: 'string', message: 'Name is required' },
+//     { type: 'trim' },
+//     { type: 'minLength', min: 1, message: 'Name must be at least 1 character long' },
+//   ],
+//   content: [
+//     { type: 'string', message: 'Content is required' },
+//     { type: 'base64', message: 'Content must be a base64 string' },
+//   ],
 // }
 
 const file = p.parse(FileSchema, {
@@ -57,6 +64,7 @@ console.log(file);
 //   content: 'dGVzdA==',
 // }
 
+// Schemas can be converted to JSON Schema
 console.log(p.toJsonSchema(FileSchema));
 // {
 //   type: 'object',
