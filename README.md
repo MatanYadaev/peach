@@ -39,17 +39,20 @@ const FileSchema = p.object({
 });
 
 console.log(FileSchema); // Schemas are serializable
-// {
-//   name: [
-//     { type: 'string', message: 'Name is required' },
-//     { type: 'trim' },
-//     { type: 'minLength', min: 1, message: 'Name must be at least 1 character long' },
-//   ],
-//   content: [
-//     { type: 'string', message: 'Content is required' },
-//     { type: 'base64', message: 'Content must be a base64 string' },
-//   ],
-// }
+// [{
+//   type: 'object',
+//   properties: {
+//     name: [
+//       { type: 'string', message: 'Name is required' },
+//       { type: 'trim' },
+//       { type: 'minLength', min: 1, message: 'Name must be at least 1 character long' },
+//     ],
+//     content: [
+//       { type: 'string', message: 'Content is required' },
+//       { type: 'base64', message: 'Content must be a base64 object' },
+//     ],
+//   },
+// }]
 
 const file = p.parse(FileSchema, {
   name: 'test.txt',
