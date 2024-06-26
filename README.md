@@ -8,6 +8,7 @@ Another validation library for TypeScript.
 - Extensible
 - Serializable
 - Compiles into JSON Schema
+- Internationalization
 
 ## Usage
 

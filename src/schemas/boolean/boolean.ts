@@ -1,13 +1,15 @@
 import type {Schema} from "../../schema.js";
 
 export const boolean: Schema<unknown, boolean> = {
-  parse: (value: unknown, path) => {
+  parse: ({value, path, message}) => {
     if (typeof value !== 'boolean') {
       return {
         issues: [
           {
             ...(path !== undefined ? {path} : {}),
-            message: 'Value must be a boolean',
+            received: value,
+            expected: 'boolean',
+            message: message ?? 'Value must be a boolean',
           }
         ]
       }
