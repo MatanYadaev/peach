@@ -1,7 +1,10 @@
 import type {Schema} from "../schema.js";
 
+type ExtractInput<T> = T extends Schema<infer TInput, any> ? TInput : never
+type ExtractOutput<T> = T extends Schema<any, infer TOutput> ? TOutput : never
+
 export const createValidator = <
-  const TSchemas extends Record<string, Schema<unknown, unknown>>,
+  const TSchemas extends Record<string, Schema<any, any>>,
 >({schemas}: {
   schemas: TSchemas
 }) => {
@@ -9,17 +12,22 @@ export const createValidator = <
     parse: <
       TSchemaName extends keyof TSchemas,
       TSchema extends TSchemas[TSchemaName],
-      // @TODO: Improve `input` type to be `TInput` inferred from `TSchema`
-      TOutput extends (TSchema['parse'] & {value: any})['value'],
-    >(schema: TSchemaName, value: unknown):TOutput => {
-      const result = schemas[schema].parse({value});
+      TInput extends ExtractInput<TSchema>,
+      TOutput extends ExtractOutput<TSchema>,
+    >(schema: TSchemaName, value: TInput): TOutput => {
+      let result;
+
+      try {
+        result = (schemas[schema] as TSchema).parse({value});
+      } catch (error) {
+        throw new Error('Error while parsing the schema', {cause: error});
+      }
 
       if ('issues' in result) {
-        // @TODO: Improve this
         throw new Error(result.issues.map(issue => issue.message).join('\n'));
       }
 
-      return result.value
+      return result.value as TOutput;
     }
   }
 }
